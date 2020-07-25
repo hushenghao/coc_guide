@@ -6,13 +6,13 @@ import 'coc_app.dart';
 class HomePage extends StatelessWidget {
   List<_HomeItem> buildItem(BuildContext context) => [
         _RouteItem("安装包下载", "各渠道安装包下载链接，点击链接自动进入对应渠道官网或下载链接。",
-            RAW_URL + "res/update.jpg", "/download", context),
+            RAW_URL + "/res/update.jpg", "/download", context),
         _RouteItem("游戏数据", "在这里，你可以看到各个兵种、法术、建筑的数据属性，游戏规划由自己掌握。",
-            RAW_URL + "res/home3.jpg", "/wiki", context),
+            RAW_URL + "/res/home3.jpg", "/wiki", context),
         _HomeItem("阵型分享", "从2019年6月更新起，部落冲突新增了阵型链接功能，这让阵型网站的开设变得更加容易。",
-            RAW_URL + "res/home2.jpg"),
+            RAW_URL + "/res/home2.jpg"),
         _HomeItem("信息查询", "目前有查询鱼情、部落和玩家这几个功能。比如说查询玩家页面包括基本信息、科技和成就。",
-            RAW_URL + "res/clashofclans.jpg"),
+            RAW_URL + "/res/clashofclans.jpg"),
       ];
 
   @override
@@ -100,26 +100,36 @@ class _CardItem extends StatelessWidget {
                     image: NetworkImage(item.imgUrl),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 3),
-                        child: Text(
-                          item.title,
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              fontSize: 21, fontWeight: FontWeight.w900),
-                        ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 3),
+                            child: Text(
+                              item.title,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      fontSize: 21,
+                                      fontWeight: FontWeight.w900),
+                            ),
+                          ),
+                          Text(
+                            item.subTitle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.subtitle2,
+                          ),
+                        ],
                       ),
-                      Text(
-                        item.subTitle,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ],

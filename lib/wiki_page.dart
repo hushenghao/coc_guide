@@ -1,13 +1,15 @@
+import 'package:coc_guide/coc_app.dart';
 import 'package:coc_guide/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:toast/toast.dart';
 
 class WikiPage extends StatefulWidget {
   final String path;
 
-  WikiPage({Key key, this.path = "README.md"}) : super(key: key);
+  WikiPage({Key key, this.path = "/wiki/Index.md"}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _WikiState();
@@ -36,9 +38,20 @@ class _WikiState extends State<WikiPage> {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text("Wiki"),
-//        trailing: Icon(
-//          CupertinoIcons.circle,
-//        ),
+        trailing: CupertinoButton(
+            padding: EdgeInsets.all(0),
+            child: Text("旋转"),
+            onPressed: () {
+              if (!landscape) {
+                SystemChrome.setPreferredOrientations(
+                    [DeviceOrientation.landscapeLeft]);
+                landscape = true;
+              } else {
+                SystemChrome.setPreferredOrientations(
+                    [DeviceOrientation.portraitUp]);
+                landscape = false;
+              }
+            }),
       ),
       child: SafeArea(
         child: Markdown(
@@ -57,21 +70,17 @@ class _WikiState extends State<WikiPage> {
             }
             openBrower(context, href);
           },
-          imageDirectory: rawUrl,
+          imageDirectory: RAW_URL,
         ),
       ),
     );
   }
 
-  final rawUrl = "https://gitee.com/dede_hu/coc-guide-resource/raw/master/";
-
-//  final rawUrl = "https://raw.githubusercontent.com/hushenghao/coc-guide-resource/master/";
-
   void _loadMarkdown() async {
     var dio = Dio();
     dio.interceptors.add(LogInterceptor(responseBody: true));
     try {
-      Response response = await dio.get(rawUrl + widget.path);
+      Response response = await dio.get(RAW_URL + widget.path);
       setState(() {
         _markdownData = response.data.toString();
       });
