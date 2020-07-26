@@ -127,7 +127,7 @@ class _CardItem extends StatelessWidget {
                                   .bodyText1
                                   .copyWith(
                                       fontSize: 21,
-                                      fontWeight: FontWeight.w900),
+                                      fontWeight: FontWeight.w700),
                             ),
                           ),
                           Text(
