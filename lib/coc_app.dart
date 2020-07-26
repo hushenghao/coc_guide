@@ -1,6 +1,6 @@
 import 'package:coc_guide/download_page.dart';
 import 'package:coc_guide/home_page.dart';
-import 'package:coc_guide/wiki_page.dart';
+import 'package:coc_guide/wiki_group_page.dart';
 import 'package:flutter/material.dart';
 
 final githubUrl = "https://github.com/hushenghao/coc-guide-resource";
@@ -20,7 +20,7 @@ class CocApp extends StatelessWidget {
       routes: {
         "/": (context) => HomePage(),
         "/download": (context) => DownloadPage(),
-        "/wiki": (context) => WikiPage(),
+        "/wiki": (context) => WikiGroupPage(),
       },
     );
   }

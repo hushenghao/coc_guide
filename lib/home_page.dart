@@ -13,7 +13,10 @@ class HomePage extends StatelessWidget {
 //        _HomeItem("阵型分享", "从2019年6月更新起，部落冲突新增了阵型链接功能，这让阵型网站的开设变得更加容易。",
 //            RAW_URL + "/res/home2.jpg"),
 //        _HomeItem("信息查询", "目前有查询鱼情、部落和玩家这几个功能。比如说查询玩家页面包括基本信息、科技和成就。",
-//            RAW_URL + "/res/clashofclans.jpg"),
+//            rawUrl + "/res/clashofclans.jpg", onPressed: () {
+//          Navigator.of(context)
+//              .push(CupertinoPageRoute(builder: (context) => WikiGroupPage()));
+//        }),
       ];
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,4 +17,9 @@ Future<void> _openBrower(String url) async {
   } else {
     throw 'Could not launch $url';
   }
+}
+
+Color randomColor(double opacity) {
+  return Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
+      .withOpacity(opacity);
 }

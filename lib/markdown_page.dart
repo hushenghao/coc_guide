@@ -6,16 +6,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:toast/toast.dart';
 
-class WikiPage extends StatefulWidget {
+class MarkdownPage extends StatefulWidget {
   final String path;
+  final String title;
 
-  WikiPage({Key key, this.path = "/wiki/Index.md"}) : super(key: key);
+  MarkdownPage({Key key, this.path = "/wiki/Index.md", this.title = "Wiki"})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _WikiState();
+  State<StatefulWidget> createState() => _MarkdownState();
 }
 
-class _WikiState extends State<WikiPage> {
+class _MarkdownState extends State<MarkdownPage> {
   String _markdownData = "";
   final controller = ScrollController();
 
@@ -29,7 +31,7 @@ class _WikiState extends State<WikiPage> {
 
   @override
   void dispose() {
-//    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.dispose();
   }
 
@@ -37,7 +39,8 @@ class _WikiState extends State<WikiPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text("Wiki"),
+//        automaticallyImplyLeading: false,
+        middle: Text(widget.title),
         trailing: CupertinoButton(
             padding: EdgeInsets.all(0),
             child: Text("旋转"),
@@ -63,7 +66,7 @@ class _WikiState extends State<WikiPage> {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => WikiPage(
+                      builder: (context) => MarkdownPage(
                             path: href,
                           )));
               return;
