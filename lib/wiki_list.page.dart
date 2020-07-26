@@ -77,7 +77,7 @@ class _WikiListState extends State<WikiListPage> {
         GridView.builder(
           padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
           shrinkWrap: true,
-          controller: TrackingScrollController(),
+          physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 0.85,
             crossAxisCount: isLandscape(context) ? 8 : 4,
