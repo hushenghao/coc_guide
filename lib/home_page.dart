@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coc_guide/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 import 'coc_app.dart';
 
@@ -33,16 +35,16 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Image.network(
-                    rawUrl + "/res/coc_logo.png",
+                  CachedNetworkImage(
+                    imageUrl: rawUrl + "/res/coc_logo.png",
                     height: 67,
                   ),
                   CupertinoButton(
                       padding: EdgeInsets.all(0),
-                      child: Image.network(
-                        rawUrl + "/res/github_logo.png",
+                      child: CachedNetworkImage(
+                        imageUrl: rawUrl + "/res/github_logo.png",
                         height: 29,
-                        color: Colors.deepOrange,
+                        color: randomColor(0.8),
                       ),
                       onPressed: () => openBrower(context, githubUrl)),
                 ],
@@ -53,7 +55,7 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
               child: Icon(CupertinoIcons.settings),
               onPressed: () {
-                print('object');
+                Toast.show(" 😏 ", context);
               },
             ),
           ],
@@ -90,6 +92,7 @@ class _CardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var color = randomColor(0.3);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
       child: SizedBox(
@@ -99,18 +102,17 @@ class _CardItem extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(16))),
           clipBehavior: Clip.antiAlias,
           elevation: 16,
-          shadowColor: Colors.black45,
+          color: color,
+          shadowColor: color,
           child: InkWell(
             highlightColor: Theme.of(context).accentColor.withOpacity(0.2),
             onTap: item.onPressed,
             child: Column(
               children: <Widget>[
-                SizedBox(
+                Ink.image(
                   height: 260,
-                  child: Ink.image(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(item.imgUrl),
-                  ),
+                  fit: BoxFit.cover,
+                  image: CachedNetworkImageProvider(item.imgUrl),
                 ),
                 Expanded(
                   child: Align(

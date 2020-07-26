@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coc_guide/markdown_page.dart';
 import 'package:coc_guide/utils.dart';
 import 'package:coc_guide/wiki_group_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:toast/toast.dart';
 
 import 'coc_app.dart';
@@ -27,7 +27,6 @@ class _WikiListState extends State<WikiListPage> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     _loadList();
   }
 
@@ -81,7 +80,7 @@ class _WikiListState extends State<WikiListPage> {
           controller: TrackingScrollController(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 0.85,
-            crossAxisCount: 4,
+            crossAxisCount: isLandscape(context) ? 8 : 4,
           ),
           itemCount: list.length,
           itemBuilder: (context, index) {
@@ -95,8 +94,7 @@ class _WikiListState extends State<WikiListPage> {
   List<_WikiGroup> list = new List();
 
   _loadList() async {
-    var dio = Dio();
-    dio.interceptors.add(LogInterceptor(responseBody: true));
+    var dio = defaultDio();
     try {
       Response response = await dio.get(rawUrl + widget.group.url);
       List<_WikiGroup> list = new List();
@@ -133,10 +131,10 @@ class _WikiListState extends State<WikiListPage> {
           onTap: () => _openWiki(item),
           child: Column(
             children: <Widget>[
-              Image.network(
-                rawUrl + item.icon,
-                fit: BoxFit.fitWidth,
+              Ink.image(
+                image: CachedNetworkImageProvider(rawUrl + item.icon),
                 height: 73,
+                fit: BoxFit.contain,
               ),
               Expanded(
                 child: Center(

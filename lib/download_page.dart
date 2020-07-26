@@ -74,8 +74,7 @@ class _DownloadState extends State<DownloadPage> {
   List<_DownloadItem> list = new List();
 
   _loadList() async {
-    var dio = Dio();
-    dio.interceptors.add(LogInterceptor(responseBody: true));
+    var dio = defaultDio();
     try {
       Response response = await dio.get(rawUrl + "/json/download/v1.json");
       List<_DownloadItem> list = new List();

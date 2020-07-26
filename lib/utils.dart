@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,4 +23,15 @@ Future<void> _openBrower(String url) async {
 Color randomColor(double opacity) {
   return Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
       .withOpacity(opacity);
+}
+
+Dio defaultDio() {
+  var dio = Dio();
+//  dio.interceptors.add(LogInterceptor(responseBody: true));
+  return dio;
+}
+
+bool isLandscape(BuildContext context) {
+  var orientation = MediaQuery.of(context).orientation;
+  return orientation == Orientation.landscape;
 }

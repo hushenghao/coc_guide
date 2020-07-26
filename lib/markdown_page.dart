@@ -26,34 +26,41 @@ class _MarkdownState extends State<MarkdownPage> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft
+    ]);
     _loadMarkdown();
   }
 
   @override
-  void dispose() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    super.dispose();
+  void deactivate() {
+    landscape = isLandscape(context);
+    super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
+    landscape = isLandscape(context);
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-//        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
         middle: Text(widget.title),
         trailing: CupertinoButton(
             padding: EdgeInsets.all(0),
             child: Text("旋转"),
             onPressed: () {
               if (!landscape) {
-                SystemChrome.setPreferredOrientations(
-                    [DeviceOrientation.landscapeLeft]);
-                landscape = true;
+                SystemChrome.setPreferredOrientations([
+                  DeviceOrientation.landscapeLeft,
+                  DeviceOrientation.landscapeRight
+                ]);
               } else {
                 SystemChrome.setPreferredOrientations(
                     [DeviceOrientation.portraitUp]);
-                landscape = false;
               }
+              landscape = !landscape;
             }),
       ),
       child: SafeArea(
@@ -80,8 +87,7 @@ class _MarkdownState extends State<MarkdownPage> {
   }
 
   void _loadMarkdown() async {
-    var dio = Dio();
-    dio.interceptors.add(LogInterceptor(responseBody: true));
+    var dio = defaultDio();
     try {
       Response response = await dio.get(rawUrl + widget.path);
       setState(() {

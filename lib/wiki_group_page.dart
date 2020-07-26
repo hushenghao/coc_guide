@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:coc_guide/utils.dart';
 import 'package:coc_guide/wiki_list.page.dart';
@@ -45,7 +44,9 @@ class _WikiGroupState extends State<WikiGroupPage> {
                 CupertinoSliverRefreshControl(onRefresh: () => _loadList()),
                 SliverGrid(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 2, crossAxisCount: 2),
+                    childAspectRatio: 2,
+                    crossAxisCount: isLandscape(context) ? 4 : 2,
+                  ),
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
                       return _buildItem(context, list[index]);
@@ -72,7 +73,7 @@ class _WikiGroupState extends State<WikiGroupPage> {
   }
 
   Widget _buildItem(BuildContext context, WikiItem item) {
-    var color = randomColor(0.5);
+    var color = randomColor(0.3);
     var textStyle = Theme.of(context).textTheme.bodyText1;
     return Padding(
       padding: EdgeInsets.all(5),
@@ -117,8 +118,7 @@ class _WikiGroupState extends State<WikiGroupPage> {
   List<WikiItem> list = new List();
 
   _loadList() async {
-    var dio = Dio();
-    dio.interceptors.add(LogInterceptor(responseBody: true));
+    var dio = defaultDio();
     try {
       Response response = await dio.get(rawUrl + "/json/wiki/group_v1.json");
       List<WikiItem> list = new List();
