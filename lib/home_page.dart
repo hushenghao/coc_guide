@@ -1,3 +1,4 @@
+import 'package:coc_guide/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -5,45 +6,53 @@ import 'coc_app.dart';
 
 class HomePage extends StatelessWidget {
   List<_HomeItem> buildItem(BuildContext context) => [
-        _RouteItem("安装包下载", "各渠道安装包下载链接，点击链接自动进入对应渠道官网或下载链接。",
-            RAW_URL + "/res/update.jpg", "/download", context),
         _RouteItem("游戏数据", "在这里，你可以看到各个兵种、法术、建筑的数据属性，游戏规划由自己掌握。",
-            RAW_URL + "/res/home3.jpg", "/wiki", context),
-        _HomeItem("阵型分享", "从2019年6月更新起，部落冲突新增了阵型链接功能，这让阵型网站的开设变得更加容易。",
-            RAW_URL + "/res/home2.jpg"),
-        _HomeItem("信息查询", "目前有查询鱼情、部落和玩家这几个功能。比如说查询玩家页面包括基本信息、科技和成就。",
-            RAW_URL + "/res/clashofclans.jpg"),
+            rawUrl + "/res/home3.jpg", "/wiki", context),
+        _RouteItem("安装包下载", "各渠道安装包下载链接，点击链接自动进入对应渠道官网或下载链接。",
+            rawUrl + "/res/update.jpg", "/download", context),
+//        _HomeItem("阵型分享", "从2019年6月更新起，部落冲突新增了阵型链接功能，这让阵型网站的开设变得更加容易。",
+//            RAW_URL + "/res/home2.jpg"),
+//        _HomeItem("信息查询", "目前有查询鱼情、部落和玩家这几个功能。比如说查询玩家页面包括基本信息、科技和成就。",
+//            RAW_URL + "/res/clashofclans.jpg"),
       ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CupertinoPageScaffold(
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          slivers: <Widget>[
-            const CupertinoSliverNavigationBar(
-              automaticallyImplyLeading: false,
-              largeTitle: Text("COC Guide"),
-//              trailing: Icon(CupertinoIcons.settings_solid),
-            ),
-            SliverPadding(
-              padding: MediaQuery.of(context).padding,
-              sliver: SliverList(
-                // ignore: missing_return
-                delegate: SliverChildListDelegate.fixed([
-                  for (var value in buildItem(context)) _CardItem(value),
-                  CupertinoButton(
-                    padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
-                    child: Icon(CupertinoIcons.settings),
-                    onPressed: () {
-                      print('object');
-                    },
+      body: ListView.custom(
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
+        childrenDelegate: SliverChildListDelegate.fixed(
+          [
+            Padding(
+              padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Image.network(
+                    rawUrl + "/res/coc_logo.png",
+                    height: 67,
                   ),
-                ]),
+                  CupertinoButton(
+                      padding: EdgeInsets.all(0),
+                      child: Image.network(
+                        rawUrl + "/res/github_logo.png",
+                        height: 29,
+                        color: Colors.deepOrange,
+                      ),
+                      onPressed: () => openBrower(context, githubUrl)),
+                ],
               ),
-            )
+            ),
+            for (var value in buildItem(context)) _CardItem(value),
+            CupertinoButton(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
+              child: Icon(CupertinoIcons.settings),
+              onPressed: () {
+                print('object');
+              },
+            ),
           ],
         ),
       ),

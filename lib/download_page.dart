@@ -24,6 +24,7 @@ class _DownloadState extends State<DownloadPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
+      bottom: false,
       child: Scaffold(
         body: CupertinoPageScaffold(
           child: CustomScrollView(
@@ -61,7 +62,7 @@ class _DownloadState extends State<DownloadPage> {
         borderRadius: BorderRadius.circular(10),
         clipBehavior: Clip.antiAlias,
         child: Image.network(
-          RAW_URL + item.icon,
+          rawUrl + item.icon,
           width: 50,
           height: 50,
           fit: BoxFit.fill,
@@ -76,7 +77,7 @@ class _DownloadState extends State<DownloadPage> {
     var dio = Dio();
     dio.interceptors.add(LogInterceptor(responseBody: true));
     try {
-      Response response = await dio.get(RAW_URL + "/json/download/result.json");
+      Response response = await dio.get(rawUrl + "/json/download/result.json");
       List<_DownloadItem> list = new List();
       json.decode(response.data).forEach((element) {
         var value = _DownloadItem(

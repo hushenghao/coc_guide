@@ -70,7 +70,7 @@ class _WikiState extends State<WikiPage> {
             }
             openBrower(context, href);
           },
-          imageDirectory: RAW_URL,
+          imageDirectory: rawUrl,
         ),
       ),
     );
@@ -80,7 +80,7 @@ class _WikiState extends State<WikiPage> {
     var dio = Dio();
     dio.interceptors.add(LogInterceptor(responseBody: true));
     try {
-      Response response = await dio.get(RAW_URL + widget.path);
+      Response response = await dio.get(rawUrl + widget.path);
       setState(() {
         _markdownData = response.data.toString();
       });
