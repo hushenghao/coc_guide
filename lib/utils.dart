@@ -21,8 +21,9 @@ Future<void> _openBrower(String url) async {
 }
 
 Color randomColor(double opacity) {
-  return Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
-      .withOpacity(opacity);
+  Random random = Random.secure();
+  return Color.fromRGBO(
+      random.nextInt(256), random.nextInt(256), random.nextInt(256), opacity);
 }
 
 Dio defaultDio() {

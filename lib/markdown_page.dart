@@ -57,8 +57,8 @@ class _MarkdownState extends State<MarkdownPage> {
             onPressed: () {
               if (!landscape) {
                 SystemChrome.setPreferredOrientations([
+                  DeviceOrientation.landscapeRight,
                   DeviceOrientation.landscapeLeft,
-                  DeviceOrientation.landscapeRight
                 ]);
               } else {
                 SystemChrome.setPreferredOrientations(
