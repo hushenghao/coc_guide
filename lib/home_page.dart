@@ -23,43 +23,47 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.custom(
-        physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics()),
-        childrenDelegate: SliverChildListDelegate.fixed(
-          [
-            Padding(
-              padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  CachedNetworkImage(
-                    imageUrl: rawUrl + "/res/coc_logo.png",
-                    height: 67,
-                  ),
-                  CupertinoButton(
-                      padding: EdgeInsets.all(0),
-                      child: CachedNetworkImage(
-                        imageUrl: rawUrl + "/res/github_logo.png",
-                        height: 29,
-                        color: randomColor(0.8),
+    return CupertinoPageScaffold(
+      child: SafeArea(
+        top: false,
+        bottom: false,
+          child: ListView.custom(
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
+            childrenDelegate: SliverChildListDelegate.fixed(
+              [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      CachedNetworkImage(
+                        imageUrl: rawUrl + "/res/coc_logo.png",
+                        height: 67,
                       ),
-                      onPressed: () => openBrower(context, githubUrl)),
-                ],
-              ),
+                      CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child: CachedNetworkImage(
+                            imageUrl: rawUrl + "/res/github_logo.png",
+                            height: 29,
+                            color: randomColor(0.8),
+                          ),
+                          onPressed: () => openBrower(context, githubUrl)),
+                    ],
+                  ),
+                ),
+                for (var value in buildItem(context)) _CardItem(value),
+                CupertinoButton(
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
+                  child: Icon(CupertinoIcons.settings),
+                  onPressed: () {
+                    Toast.show(" 😏 ", context);
+                  },
+                ),
+              ],
             ),
-            for (var value in buildItem(context)) _CardItem(value),
-            CupertinoButton(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
-              child: Icon(CupertinoIcons.settings),
-              onPressed: () {
-                Toast.show(" 😏 ", context);
-              },
-            ),
-          ],
-        ),
+          ),
       ),
     );
   }
@@ -94,14 +98,14 @@ class _CardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var color = randomColor(0.3);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
       child: SizedBox(
         height: 360,
         child: Card(
           shape: const RoundedRectangleBorder(
               borderRadius: const BorderRadius.all(Radius.circular(16))),
           clipBehavior: Clip.antiAlias,
-          elevation: 16,
+          elevation: 12,
           color: color,
           shadowColor: color,
           child: InkWell(
@@ -132,7 +136,7 @@ class _CardItem extends StatelessWidget {
                                   .bodyText1
                                   .copyWith(
                                       fontSize: 21,
-                                      fontWeight: FontWeight.w700),
+                                      fontWeight: FontWeight.bold),
                             ),
                           ),
                           Text(

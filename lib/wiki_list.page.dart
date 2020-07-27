@@ -33,31 +33,28 @@ class _WikiListState extends State<WikiListPage> {
   @override
   Widget build(BuildContext context) {
     var group = widget.group;
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Scaffold(
-        body: CupertinoPageScaffold(
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics()),
-            slivers: [
-              CupertinoSliverNavigationBar(
-                automaticallyImplyLeading: false,
-                largeTitle: Text(group.en),
-              ),
-              CupertinoSliverRefreshControl(onRefresh: () => _loadList()),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return _buildGroup(context, list[index]);
-                  },
-                  childCount: list.length,
-                ),
-              ),
-            ],
+    return CupertinoPageScaffold(
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
+        slivers: [
+          CupertinoSliverNavigationBar(
+            automaticallyImplyLeading: false,
+            largeTitle: Text(group.en),
           ),
-        ),
+          CupertinoSliverRefreshControl(onRefresh: () => _loadList()),
+          SliverSafeArea(
+            top: false,
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return _buildGroup(context, list[index]);
+                },
+                childCount: list.length,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -133,7 +130,7 @@ class _WikiListState extends State<WikiListPage> {
             children: <Widget>[
               Ink.image(
                 image: CachedNetworkImageProvider(rawUrl + item.icon),
-                height: 73,
+                height: 67,
                 fit: BoxFit.contain,
               ),
               Expanded(
@@ -142,8 +139,9 @@ class _WikiListState extends State<WikiListPage> {
                     item.zh,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 13,
                       color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

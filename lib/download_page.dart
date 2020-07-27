@@ -1,13 +1,17 @@
 import 'dart:convert';
 
-import 'package:coc_guide/utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
 import 'coc_app.dart';
+import 'utils.dart';
 
+///
+/// 下载页
+///
 class DownloadPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _DownloadState();
@@ -22,21 +26,25 @@ class _DownloadState extends State<DownloadPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Scaffold(
-        body: CupertinoPageScaffold(
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics()),
-            slivers: [
-              CupertinoSliverNavigationBar(
-                automaticallyImplyLeading: false,
-                largeTitle: Text("安装包下载"),
-              ),
-              CupertinoSliverRefreshControl(onRefresh: () => _loadList()),
-              SliverList(
+    return Scaffold(
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
+        slivers: [
+          CupertinoSliverNavigationBar(
+            automaticallyImplyLeading: false,
+            largeTitle: Text("安装包下载"),
+          ),
+          CupertinoSliverRefreshControl(onRefresh: () => _loadList()),
+          SliverSafeArea(
+            top: false,
+            sliver: SliverPadding(
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+              sliver: SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 2.8,
+                  crossAxisCount: isLandscape(context) ? 4 : 2,
+                ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return _buildItem(context, list[index]);
@@ -44,29 +52,71 @@ class _DownloadState extends State<DownloadPage> {
                   childCount: list.length,
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
   Widget _buildItem(BuildContext context, _DownloadItem item) {
-    return ListTile(
-      onTap: () => openBrower(context, item.url),
-      title: Text(item.title),
-      subtitle: item.desc == null ? null : Text(item.desc),
-      dense: false,
-      contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-      leading: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        clipBehavior: Clip.antiAlias,
-        child: Image.network(
-          rawUrl + item.icon,
-          width: 50,
-          height: 50,
-          fit: BoxFit.fill,
-        ),
+    return CupertinoButton(
+      onPressed: () => _itemClick(context, item),
+      padding: EdgeInsets.zero,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ClipOval(
+            child: Image(
+              image: CachedNetworkImageProvider(rawUrl + item.icon),
+              height: 43,
+              fit: BoxFit.cover,
+            ),
+            clipBehavior: Clip.antiAlias,
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                item.title,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _itemClick(BuildContext context, _DownloadItem item) {
+    if (item.desc == null) {
+      openBrower(context, item.url);
+      return;
+    }
+
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text('提示'),
+        content: Text(item.desc),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            onPressed: () => Navigator.pop(context),
+            child: Text("取消"),
+          ),
+          CupertinoDialogAction(
+            onPressed: () {
+              openBrower(context, item.url);
+              Navigator.pop(context);
+            },
+            child: Text("我知道了"),
+          ),
+        ],
       ),
     );
   }

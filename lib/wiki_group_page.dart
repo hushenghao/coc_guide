@@ -26,38 +26,35 @@ class _WikiGroupState extends State<WikiGroupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.only(left: 8, right: 8),
-          child: CupertinoPageScaffold(
-            child: CustomScrollView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              slivers: [
-                CupertinoSliverNavigationBar(
-                  automaticallyImplyLeading: false,
-                  largeTitle: Text("Wiki"),
+    return CupertinoPageScaffold(
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
+        slivers: [
+          CupertinoSliverNavigationBar(
+            automaticallyImplyLeading: false,
+            largeTitle: Text("Wiki"),
+          ),
+          CupertinoSliverRefreshControl(onRefresh: () => _loadList()),
+          SliverSafeArea(
+            top: false,
+            sliver: SliverPadding(
+              padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+              sliver: SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 2,
+                  crossAxisCount: isLandscape(context) ? 4 : 2,
                 ),
-                CupertinoSliverRefreshControl(onRefresh: () => _loadList()),
-                SliverGrid(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 2,
-                    crossAxisCount: isLandscape(context) ? 4 : 2,
-                  ),
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return _buildItem(context, list[index]);
-                    },
-                    childCount: list.length,
-                  ),
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return _buildItem(context, list[index]);
+                  },
+                  childCount: list.length,
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -76,13 +73,13 @@ class _WikiGroupState extends State<WikiGroupPage> {
     var color = randomColor(0.3);
     var textStyle = Theme.of(context).textTheme.bodyText1;
     return Padding(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(3),
       child: Card(
         color: color,
         shape: const RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(11))),
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
         clipBehavior: Clip.antiAlias,
-        elevation: 13,
+        elevation: 10,
         shadowColor: color,
         child: InkWell(
           onTap: () => _toList(item),
@@ -94,7 +91,7 @@ class _WikiGroupState extends State<WikiGroupPage> {
                   item.en,
                   style: textStyle.copyWith(
                     fontSize: 21,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 Padding(

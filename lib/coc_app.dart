@@ -15,7 +15,6 @@ class CocApp extends StatelessWidget {
     return CupertinoApp(
       theme: MaterialBasedCupertinoThemeData(
         materialTheme: ThemeData(
-          splashColor: Colors.transparent,
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
