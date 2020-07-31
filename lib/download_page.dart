@@ -39,10 +39,10 @@ class _DownloadState extends State<DownloadPage> {
           SliverSafeArea(
             top: false,
             sliver: SliverPadding(
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+              padding: EdgeInsets.fromLTRB(25, 10, 20, 10),
               sliver: SliverGrid(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 2.8,
+                  childAspectRatio: 2.3,
                   crossAxisCount: isLandscape(context) ? 4 : 2,
                 ),
                 delegate: SliverChildBuilderDelegate(
@@ -60,19 +60,38 @@ class _DownloadState extends State<DownloadPage> {
   }
 
   Widget _buildItem(BuildContext context, _DownloadItem item) {
+    double size = 55;
     return CupertinoButton(
       onPressed: () => _itemClick(context, item),
       padding: EdgeInsets.zero,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          ClipOval(
-            child: Image(
-              image: CachedNetworkImageProvider(rawUrl + item.icon),
-              height: 43,
-              fit: BoxFit.cover,
-            ),
-            clipBehavior: Clip.antiAlias,
+          Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Image(
+                  image: CachedNetworkImageProvider(rawUrl + item.icon),
+                  fit: BoxFit.cover,
+                ),
+                height: size,
+                width: size,
+                clipBehavior: Clip.antiAlias,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Colors.blueGrey.withAlpha(80), width: 0.5),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                height: size,
+                width: size,
+                clipBehavior: Clip.antiAlias,
+              ),
+            ],
           ),
           Expanded(
             child: Padding(
