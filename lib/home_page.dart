@@ -1,8 +1,11 @@
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coc_guide/tab_scale.dart';
 import 'package:coc_guide/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:toast/toast.dart';
 
 import 'coc_app.dart';
@@ -39,9 +42,13 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    CachedNetworkImage(
-                      imageUrl: rawUrl + "/res/coc_logo.png",
-                      height: 67,
+                    CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      child: CachedNetworkImage(
+                        imageUrl: rawUrl + "/res/coc_logo.png",
+                        height: 67,
+                      ),
+                      onPressed: () => _play(),
                     ),
                     CupertinoButton(
                         padding: EdgeInsets.zero,
@@ -70,6 +77,11 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _play() async {
+    var cache = AudioCache(prefix: "audio/");
+    cache.play("loading_screen_jingle.ogg");
   }
 }
 

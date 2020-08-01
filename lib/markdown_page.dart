@@ -51,7 +51,7 @@ class _MarkdownState extends State<MarkdownPage> {
         trailing: CupertinoButton(
             padding: EdgeInsets.all(10),
             child: Image(
-              image: AssetImage("images/rotate.png"),
+              image: AssetImage("assets/images/rotate.png"),
               color: Theme.of(context).primaryColor,
             ),
             onPressed: () {

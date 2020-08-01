@@ -35,6 +35,7 @@ dependencies:
   # shared_preferences: ^0.5.8
   url_launcher: ^5.5.0
   toast: ^0.1.5
+  audioplayers: ^0.15.1
 
 dev_dependencies:
   flutter_test:
@@ -82,5 +83,7 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
-    - images/rotate.png
+    - assets/images/rotate.png
+    - assets/audio/supercell_jingle.ogg
+    - assets/audio/loading_screen_jingle.ogg
   
