@@ -19,10 +19,6 @@ class CocApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
       ),
-//      theme: ThemeData(
-//        primarySwatch: Colors.blue,
-//        visualDensity: VisualDensity.adaptivePlatformDensity,
-//      ),
       showSemanticsDebugger: false,
       showPerformanceOverlay: false,
       initialRoute: "/",

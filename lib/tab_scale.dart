@@ -9,7 +9,7 @@ class TabScale extends StatefulWidget {
 
   TabScale(
       {Key key,
-      this.child,
+      @required this.child,
       this.duration = const Duration(milliseconds: 200),
       this.begin = 1.0,
       this.end = 0.95,

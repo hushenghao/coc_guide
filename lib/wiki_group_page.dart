@@ -25,6 +25,29 @@ class _WikiGroupState extends State<WikiGroupPage> {
     _loadList();
   }
 
+  Widget buildContent(BuildContext context) {
+    return SliverPadding(
+      padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+      sliver: SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 2,
+          crossAxisCount: isLandscape(context) ? 4 : 2,
+        ),
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            var item = list[index];
+            return TabScale(
+              onPressed: () => _toList(item),
+              child: _buildItem(context, item),
+              end: 0.9,
+            );
+          },
+          childCount: list.length,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -39,26 +62,7 @@ class _WikiGroupState extends State<WikiGroupPage> {
           CupertinoSliverRefreshControl(onRefresh: () => _loadList()),
           SliverSafeArea(
             top: false,
-            sliver: SliverPadding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-              sliver: SliverGrid(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 2,
-                  crossAxisCount: isLandscape(context) ? 4 : 2,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    var item = list[index];
-                    return TabScale(
-                      onPressed: () => _toList(item),
-                      child: _buildItem(context, item),
-                      end: 0.9,
-                    );
-                  },
-                  childCount: list.length,
-                ),
-              ),
-            ),
+            sliver: buildContent(context),
           ),
         ],
       ),
