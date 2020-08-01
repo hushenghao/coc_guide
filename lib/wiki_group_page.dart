@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:coc_guide/tab_scale.dart';
 import 'package:coc_guide/utils.dart';
 import 'package:coc_guide/wiki_list.page.dart';
 import 'package:dio/dio.dart';
@@ -47,7 +48,12 @@ class _WikiGroupState extends State<WikiGroupPage> {
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return _buildItem(context, list[index]);
+                    var item = list[index];
+                    return TabScale(
+                      onPressed: () => _toList(item),
+                      child: _buildItem(context, item),
+                      end: 0.9,
+                    );
                   },
                   childCount: list.length,
                 ),
@@ -81,31 +87,28 @@ class _WikiGroupState extends State<WikiGroupPage> {
         clipBehavior: Clip.antiAlias,
         elevation: 10,
         shadowColor: color,
-        child: InkWell(
-          onTap: () => _toList(item),
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  item.en,
+        child: Center(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                item.en,
+                style: textStyle.copyWith(
+                  fontSize: 21,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 5, left: 5),
+                child: Text(
+                  item.zh,
                   style: textStyle.copyWith(
-                    fontSize: 21,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 11,
+                      fontStyle: FontStyle.italic),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 5, left: 5),
-                  child: Text(
-                    item.zh,
-                    style: textStyle.copyWith(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 11,
-                        fontStyle: FontStyle.italic),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

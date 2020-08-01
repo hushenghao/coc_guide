@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:coc_guide/tab_scale.dart';
 import 'package:coc_guide/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,8 +56,11 @@ class HomePage extends StatelessWidget {
               ),
               for (var value in buildItem(context)) _CardItem(value),
               CupertinoButton(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
-                child: Icon(CupertinoIcons.settings),
+                padding: EdgeInsets.fromLTRB(20, 30, 20, 40),
+                child: FlutterLogo(
+                  size: 37,
+                  style: FlutterLogoStyle.stacked,
+                ),
                 onPressed: () {
                   Toast.show(" 😏 ", context);
                 },
@@ -98,10 +102,10 @@ class _CardItem extends StatefulWidget {
   State<StatefulWidget> createState() => _CardItemState();
 }
 
-class _CardItemState extends State<_CardItem>
-    with SingleTickerProviderStateMixin {
+class _CardItemState extends State<_CardItem> {
+  final _color = randomColor(0.5);
+
   Widget _buildContent(BuildContext context) {
-    var color = randomColor(0.5);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
       child: SizedBox(
@@ -111,8 +115,8 @@ class _CardItemState extends State<_CardItem>
               borderRadius: const BorderRadius.all(Radius.circular(16))),
           clipBehavior: Clip.antiAlias,
           elevation: 16,
-          color: color,
-          shadowColor: color,
+          color: _color,
+          shadowColor: _color,
           child: Column(
             children: <Widget>[
               Image(
@@ -158,59 +162,11 @@ class _CardItemState extends State<_CardItem>
     );
   }
 
-  AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller =
-        AnimationController(duration: Duration(milliseconds: 100), vsync: this);
-  }
-
-  _onPressedChanged(bool isPressed) {
-    if (isPressed) {
-      _controller.forward();
-    } else {
-      _controller.reverse();
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    var child = ScaleTransition(
-      scale: new Tween(begin: 1.0, end: 0.95).animate(_controller),
+    return TabScale(
       child: _buildContent(context),
-    );
-    return GestureDetector(
-      onTapCancel: () {
-        print("取消");
-        _onPressedChanged(false);
-      },
-      onTapUp: (details) {
-        print("抬起");
-        _onPressedChanged(false);
-      },
-      onTapDown: (details) {
-        print("按下");
-      },
-      onPanDown: (details) {
-        _onPressedChanged(true);
-        print("pan down");
-      },
-      onPanCancel: () {
-        _onPressedChanged(false);
-        print("pan cancel");
-      },
-      onTap: () {
-        widget.item.onPressed.call();
-      },
-      child: child,
+      onPressed: widget.item.onPressed,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coc_guide/markdown_page.dart';
+import 'package:coc_guide/tab_scale.dart';
 import 'package:coc_guide/utils.dart';
 import 'package:coc_guide/wiki_group_page.dart';
 import 'package:dio/dio.dart';
@@ -81,7 +82,12 @@ class _WikiListState extends State<WikiListPage> {
           ),
           itemCount: list.length,
           itemBuilder: (context, index) {
-            return _buildItem(context, list[index]);
+            var item = list[index];
+            return TabScale(
+              child: _buildItem(context, item),
+              onPressed: () => _openWiki(item),
+              end: 0.9,
+            );
           },
         ),
       ],
@@ -124,30 +130,27 @@ class _WikiListState extends State<WikiListPage> {
         shadowColor: color,
         shape: const RoundedRectangleBorder(
             borderRadius: const BorderRadius.all(Radius.circular(8))),
-        child: InkWell(
-          onTap: () => _openWiki(item),
-          child: Column(
-            children: <Widget>[
-              Ink.image(
-                image: CachedNetworkImageProvider(rawUrl + item.icon),
-                height: 67,
-                fit: BoxFit.contain,
-              ),
-              Expanded(
-                child: Center(
-                  child: Text(
-                    item.zh,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
+        child: Column(
+          children: <Widget>[
+            Image(
+              image: CachedNetworkImageProvider(rawUrl + item.icon),
+              height: 67,
+              fit: BoxFit.contain,
+            ),
+            Expanded(
+              child: Center(
+                child: Text(
+                  item.zh,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
