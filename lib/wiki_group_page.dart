@@ -50,10 +50,8 @@ class _WikiGroupState extends State<WikiGroupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics()),
+    return Scaffold(
+      body: CustomScrollView(
         slivers: [
           CupertinoSliverNavigationBar(
             automaticallyImplyLeading: false,
@@ -71,7 +69,7 @@ class _WikiGroupState extends State<WikiGroupPage> {
 
   _toList(WikiItem item) {
     Navigator.of(context).push(
-      CupertinoPageRoute(
+      MaterialPageRoute(
         builder: (context) {
           return WikiListPage(this.widget.key, group: item);
         },

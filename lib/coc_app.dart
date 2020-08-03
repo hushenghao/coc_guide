@@ -12,12 +12,10 @@ final rawUrl = "https://gitee.com/dede_hu/coc-guide-resource/raw/master";
 class CocApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
-      theme: MaterialBasedCupertinoThemeData(
-        materialTheme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
+    return MaterialApp(
+      theme: ThemeData(
+        platform: TargetPlatform.iOS,
+        primarySwatch: Colors.blue,
       ),
       showSemanticsDebugger: false,
       showPerformanceOverlay: false,

@@ -28,8 +28,6 @@ class _DownloadState extends State<DownloadPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics()),
         slivers: [
           CupertinoSliverNavigationBar(
             automaticallyImplyLeading: false,

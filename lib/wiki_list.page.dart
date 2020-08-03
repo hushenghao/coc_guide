@@ -34,10 +34,8 @@ class _WikiListState extends State<WikiListPage> {
   @override
   Widget build(BuildContext context) {
     var group = widget.group;
-    return CupertinoPageScaffold(
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics()),
+    return Scaffold(
+      body: CustomScrollView(
         slivers: [
           CupertinoSliverNavigationBar(
             automaticallyImplyLeading: false,
@@ -157,7 +155,7 @@ class _WikiListState extends State<WikiListPage> {
   }
 
   _openWiki(WikiItem item) {
-    Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return MarkdownPage(path: item.url, title: item.en);
     }));
   }

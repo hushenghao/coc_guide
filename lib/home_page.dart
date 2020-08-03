@@ -1,11 +1,9 @@
 import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coc_guide/tab_scale.dart';
 import 'package:coc_guide/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:toast/toast.dart';
 
 import 'coc_app.dart';
@@ -27,13 +25,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: SafeArea(
+    return Scaffold(
+      body: SafeArea(
         top: false,
         bottom: false,
         child: ListView.custom(
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
           childrenDelegate: SliverChildListDelegate.fixed(
             [
               Padding(
