@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              for (var value in buildItem(context)) _CardItem(value),
+              for (var value in buildItem(context)) ...[_CardItem(value)],
               CupertinoButton(
                 padding: EdgeInsets.fromLTRB(20, 30, 20, 40),
                 child: FlutterLogo(
